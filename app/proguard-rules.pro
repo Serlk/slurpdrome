@@ -11,5 +11,5 @@
 -dontwarn org.openjsse.**
 
 # Instantiated by name via reflection (manifest meta-data / Glance action callbacks).
--keep class dev.slurpdrome.player.CastOptionsProvider { <init>(); *; }
+-keep class dev.slurpdrome.player.CastOptionsProvider { <init>(); *; }   # full flavor only
 -keep class * implements androidx.glance.appwidget.action.ActionCallback { <init>(); }

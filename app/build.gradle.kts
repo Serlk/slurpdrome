@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -11,11 +13,33 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "dev.slurpdrome"
+        applicationId = "io.github.serlk.slurpdrome"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "0.1.0"
+    }
+
+    // Release signing comes from keystore.properties (not in git). Without it — e.g. on the
+    // F-Droid build server, which signs with its own key — the release APK is left unsigned.
+    val keystoreProps = rootProject.file("keystore.properties").takeIf { it.exists() }?.let { f ->
+        Properties().apply { f.inputStream().use { load(it) } }
+    }
+    signingConfigs {
+        if (keystoreProps != null) create("release") {
+            storeFile = file(keystoreProps.getProperty("storeFile"))
+            storePassword = keystoreProps.getProperty("storePassword")
+            keyAlias = keystoreProps.getProperty("keyAlias")
+            keyPassword = keystoreProps.getProperty("keyPassword")
+        }
+    }
+
+    // foss: F-Droid, only free dependencies (no Google Play Services → no Chromecast; DLNA works).
+    // full: everything, including Chromecast.
+    flavorDimensions += "distribution"
+    productFlavors {
+        create("foss") { dimension = "distribution" }
+        create("full") { dimension = "distribution" }
     }
 
     buildTypes {
@@ -23,9 +47,13 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            // Signed with the debug key so the release APK is installable out of the box.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.findByName("release")
         }
+    }
+
+    dependenciesInfo {
+        includeInApk = false      // Google-encrypted dependency blob; F-Droid scanners flag it
+        includeInBundle = false
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -62,9 +90,10 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer:$media3")
     implementation("androidx.media3:media3-session:$media3")
     implementation("androidx.media3:media3-datasource-okhttp:$media3")
-    implementation("androidx.media3:media3-cast:$media3")
-    implementation("androidx.mediarouter:mediarouter:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")   // already pulled in by mediarouter; used for its route chooser dialog
+    // Chromecast pulls in proprietary Google Play Services → "full" flavor only.
+    "fullImplementation"("androidx.media3:media3-cast:$media3")
+    "fullImplementation"("androidx.mediarouter:mediarouter:1.7.0")
+    "fullImplementation"("androidx.appcompat:appcompat:1.6.1")   // route chooser dialog theme
 
     val room = "2.6.1"
     implementation("androidx.room:room-runtime:$room")

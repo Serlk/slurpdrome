@@ -20,9 +20,12 @@ A Navidrome client for Android, built for both touchscreens and keypad phones (K
 ## Build
 ```sh
 export JAVA_HOME=~/.local/jdk-17 ANDROID_HOME=~/Android/Sdk
-./gradlew assembleRelease      # app/build/outputs/apk/release/app-release.apk (signed with the debug key)
-./gradlew testDebugUnitTest    # logic tests + a live API test against demo.navidrome.org
+./gradlew assembleFullRelease      # everything, incl. Chromecast (Google Play Services)
+./gradlew assembleFossRelease      # F-Droid flavor: only free dependencies, no Chromecast (DLNA works)
+./gradlew testFossDebugUnitTest    # logic tests + a live API test against demo.navidrome.org
 ```
+Release APKs are signed when `keystore.properties` exists in the project root
+(`storeFile`, `storePassword`, `keyAlias`, `keyPassword`); otherwise they are left unsigned.
 
 ## Sources
 The library is assembled from any number of sources at once: Navidrome servers and music on the phone (MediaStore).
@@ -53,6 +56,9 @@ Image albums (one FLAC with an embedded CUESHEET) are split into virtual tracks;
 Two layers: an LRU stream cache (keyed by song + quality) and explicit downloads. A track is kept if any rule wants it:
 a manual download, "Auto-save favorites" (off by default), or a pinned album/artist/playlist/smart playlist.
 Stars, ratings and scrobbles made without a connection are sent once it's back.
+
+## License
+[GPL-3.0-or-later](LICENSE).
 
 ## Roadmap
 The Titan 2 rear screen, .lrc lyrics for local files.

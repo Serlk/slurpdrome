@@ -1,0 +1,36 @@
+<p>Slurpdrome is a music player for your own <a href="https://www.navidrome.org/">Navidrome</a> (Subsonic/OpenSubsonic) server and for music stored on the phone. It is built to work equally well with a touchscreen and with a hardware keyboard or keypad.</p>
+
+<p><b>One library from many sources</b></p>
+<ul>
+<li>Any number of Navidrome servers plus music on the phone, merged into one library without restarts</li>
+<li>Duplicates across sources are folded into one entry; the best available copy plays, with automatic failover if a server goes down</li>
+<li>Playlists on the device can mix tracks from different servers</li>
+</ul>
+
+<p><b>Offline first</b></p>
+<ul>
+<li>Stream cache up to 100 GB, explicit downloads, optional auto-download of favorites</li>
+<li>Downloads respect Wi-Fi and mobile data settings and continue in the background</li>
+<li>Stars, ratings and scrobbles made offline are sent later</li>
+</ul>
+
+<p><b>Player</b></p>
+<ul>
+<li>Gapless playback or crossfade, ReplayGain</li>
+<li>Endless continuation of mixes and radio without repeats; your own playlists stop at the end</li>
+<li>Waveform seek bar, swipe anywhere to skip, double-tap the cover to like</li>
+<li>Queue with drag-and-drop, synced lyrics</li>
+<li>Equalizer with about 8800 AutoEQ headphone profiles, switching with the output device</li>
+<li>Albums stored as one file with an embedded CUE sheet are split into tracks</li>
+<li>Audiobooks: resume points synced with Navidrome bookmarks, separate speed</li>
+</ul>
+
+<p><b>Everywhere</b></p>
+<ul>
+<li>Play on DLNA/UPnP receivers, speakers and TVs</li>
+<li>Android Auto, home-screen widget</li>
+<li>Full D-pad and keyboard control with hotkeys, T9-style keypad mode</li>
+<li>Light and dark themes, accent colors, Material You; English and Russian</li>
+</ul>
+
+<p>No ads, no analytics. The app only talks to the servers you add (and to GitHub when you search AutoEQ headphone profiles).</p>

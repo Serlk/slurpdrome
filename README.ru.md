@@ -7,9 +7,12 @@
 ## Сборка
 ```sh
 export JAVA_HOME=~/.local/jdk-17 ANDROID_HOME=~/Android/Sdk
-./gradlew assembleRelease      # app/build/outputs/apk/release/app-release.apk (подписан debug-ключом)
-./gradlew testDebugUnitTest    # логика + живой тест API против demo.navidrome.org
+./gradlew assembleFullRelease      # всё, включая Chromecast (Google Play Services)
+./gradlew assembleFossRelease      # вариант для F-Droid: только свободные зависимости, без Chromecast (DLNA работает)
+./gradlew testFossDebugUnitTest    # логика + живой тест API против demo.navidrome.org
 ```
+Release-APK подписываются, если в корне проекта есть `keystore.properties`
+(`storeFile`, `storePassword`, `keyAlias`, `keyPassword`); иначе остаются неподписанными.
 
 ## Источники
 Медиатека собирается из любого числа источников одновременно: серверы Navidrome и музыка на телефоне (MediaStore).
@@ -43,6 +46,9 @@ Chromecast и DLNA/UPnP-ресиверы выбираются в одном ди
 Одинаковые альбомы/треки из разных источников сливаются в одну запись; при воспроизведении выбирается лучшая копия
 (локальная > скачанная > доступный сервер по приоритету > качество), при ошибке — переключение на другую копию.
 Альбомы-образы (один FLAC + встроенный CUESHEET) делятся на виртуальные треки; `tools/embed-cue.sh` встраивает внешние .cue на сервере.
+
+## Лицензия
+[GPL-3.0-or-later](LICENSE).
 
 ## Roadmap
 Задний экран Titan 2, тексты из .lrc для локальных файлов.

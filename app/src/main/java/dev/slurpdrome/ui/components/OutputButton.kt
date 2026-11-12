@@ -1,6 +1,5 @@
 package dev.slurpdrome.ui.components
 
-import android.view.ContextThemeWrapper
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -130,13 +129,6 @@ private fun OutputRow(icon: ImageVector, title: String, subtitle: String?, selec
     }
 }
 
-private fun pickCast(ctx: android.content.Context): Unit {
-    val selector = runCatching { com.google.android.gms.cast.framework.CastContext.getSharedInstance(ctx).mergedSelector }.getOrNull() ?: return
-    val dialog = androidx.mediarouter.app.MediaRouteChooserDialog(ContextThemeWrapper(ctx, androidx.appcompat.R.style.Theme_AppCompat_DayNight_Dialog))
-    dialog.routeSelector = selector
-    dialog.show()
-}
+private fun pickCast(ctx: android.content.Context) = dev.slurpdrome.player.CastSupport.pickDevice(ctx)
 
-private fun endCast(ctx: android.content.Context) {
-    runCatching { com.google.android.gms.cast.framework.CastContext.getSharedInstance(ctx).sessionManager.endCurrentSession(true) }
-}
+private fun endCast(ctx: android.content.Context) = dev.slurpdrome.player.CastSupport.endSession(ctx)

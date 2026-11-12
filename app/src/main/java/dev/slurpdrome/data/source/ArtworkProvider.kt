@@ -75,7 +75,7 @@ class ArtworkProvider : ContentProvider() {
     override fun update(uri: Uri, v: ContentValues?, s: String?, a: Array<out String>?) = 0
 
     companion object {
-        const val AUTHORITY = "dev.slurpdrome.artwork"
+        val AUTHORITY = dev.slurpdrome.BuildConfig.APPLICATION_ID + ".artwork"
         fun uri(coverArtGid: String): Uri = Uri.Builder().scheme("content").authority(AUTHORITY).appendPath(coverArtGid).build()
     }
 }

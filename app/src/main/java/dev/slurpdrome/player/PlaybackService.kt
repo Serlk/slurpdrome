@@ -57,7 +57,7 @@ class PlaybackService : MediaLibraryService() {
     private val musicAttrs = AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build()
     private lateinit var session: MediaLibrarySession
     private val tree by lazy { LibraryTree(c) }
-    private var castPlayer: androidx.media3.cast.CastPlayer? = null
+    private var castPlayer: Player? = null
     private val casting get() = castPlayer != null && session.player === castPlayer
     private var dlnaPlayer: dev.slurpdrome.player.dlna.DlnaPlayer? = null
     /** Playback happens elsewhere (Chromecast or a DLNA renderer), not in our ExoPlayer. */
@@ -161,8 +161,7 @@ class PlaybackService : MediaLibraryService() {
         finishCurrent(completed = false, skipped = false)
         saveQueueNow()
         c.sleepTimer.player = null
-        castPlayer?.setSessionAvailabilityListener(null)
-        castPlayer?.release()
+        castPlayer?.let(CastSupport::release)
         dlnaPlayer?.release()
         scope.cancel()
         session.release()
@@ -446,18 +445,17 @@ class PlaybackService : MediaLibraryService() {
 
     /** Hands the session over to a Cast device and back, carrying queue, index and position. */
     private fun setupCast() {
-        val ctx = runCatching { com.google.android.gms.cast.framework.CastContext.getSharedInstance(this) }.getOrNull() ?: return
-        val cp = androidx.media3.cast.CastPlayer(ctx)
-        cp.setSessionAvailabilityListener(object : androidx.media3.cast.SessionAvailabilityListener {
-            override fun onCastSessionAvailable() {
+        val cp = CastSupport.create(
+            this,
+            onAvailable = { p ->
                 c.dlna.active.value = null   // one remote at a time
-                switchTo(cp)
-            }
-            override fun onCastSessionUnavailable() = switchTo(player)
-        })
+                switchTo(p)
+            },
+            onUnavailable = { switchTo(player) },
+        ) ?: return
         castPlayer = cp
         c.castAvailable.value = true
-        if (cp.isCastSessionAvailable) switchTo(cp)
+        if (CastSupport.isSessionAvailable(cp)) switchTo(cp)
     }
 
     // ---------------- DLNA ----------------

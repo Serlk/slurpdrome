@@ -1,0 +1,27 @@
+# Draft for gitlab.com/fdroid/fdroiddata → metadata/io.github.serlk.slurpdrome.yml
+# Descriptions, icon and changelogs come from fastlane/metadata/android in this repo.
+Categories:
+  - Multimedia
+License: GPL-3.0-or-later
+AuthorName: Serlk
+SourceCode: https://github.com/Serlk/slurpdrome
+IssueTracker: https://github.com/Serlk/slurpdrome/issues
+Changelog: https://github.com/Serlk/slurpdrome/releases
+
+AutoName: Slurpdrome
+
+RepoType: git
+Repo: https://github.com/Serlk/slurpdrome.git
+
+Builds:
+  - versionName: 0.1.0
+    versionCode: 1
+    commit: v0.1.0
+    subdir: app
+    gradle:
+      - foss
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 0.1.0
+CurrentVersionCode: 1

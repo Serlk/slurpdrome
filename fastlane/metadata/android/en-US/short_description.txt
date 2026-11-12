@@ -1,0 +1,1 @@
+Navidrome player: offline cache, many servers in one library, keypad-friendly

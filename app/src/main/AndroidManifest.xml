@@ -53,10 +53,6 @@
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
-            android:value="dev.slurpdrome.player.CastOptionsProvider" />
-
         <!-- Android Auto: we're a media app, browse tree served by PlaybackService. -->
         <meta-data
             android:name="com.google.android.gms.car.application"
@@ -76,7 +72,7 @@
 
         <provider
             android:name=".data.source.ArtworkProvider"
-            android:authorities="dev.slurpdrome.artwork"
+            android:authorities="${applicationId}.artwork"
             android:exported="true" />
 
         <service
