@@ -59,6 +59,9 @@ class PlaybackService : MediaLibraryService() {
     private val tree by lazy { LibraryTree(c) }
     private var castPlayer: androidx.media3.cast.CastPlayer? = null
     private val casting get() = castPlayer != null && session.player === castPlayer
+    private var dlnaPlayer: dev.slurpdrome.player.dlna.DlnaPlayer? = null
+    /** Playback happens elsewhere (Chromecast or a DLNA renderer), not in our ExoPlayer. */
+    private val remote get() = this::session.isInitialized && session.player !== player
 
     // ---- listening-session tracking ----
     private var current: Tracked? = null
@@ -119,6 +122,7 @@ class PlaybackService : MediaLibraryService() {
             }
         }
         setupCast()
+        scope.launch { followDlna() }
         scope.launch { ticker() }
         scope.launch { crossfadeWatcher() }
         scope.launch { restoreQueue() }
@@ -159,6 +163,7 @@ class PlaybackService : MediaLibraryService() {
         c.sleepTimer.player = null
         castPlayer?.setSessionAvailabilityListener(null)
         castPlayer?.release()
+        dlnaPlayer?.release()
         scope.cancel()
         session.release()
         player.release()
@@ -368,7 +373,7 @@ class PlaybackService : MediaLibraryService() {
         fileJob?.cancel()
         val id = item?.mediaId
         c.trackFile.value = TrackFileState(id)
-        if (item == null || casting) return
+        if (item == null || remote) return
         val cfg = item.localConfiguration ?: return
         val clipped = item.clippingConfiguration.endPositionMs != C.TIME_END_OF_SOURCE
         val instance = item.mediaMetadata.extras?.getString(MediaItemFactory.EXTRA_INSTANCE) ?: id!!
@@ -444,7 +449,10 @@ class PlaybackService : MediaLibraryService() {
         val ctx = runCatching { com.google.android.gms.cast.framework.CastContext.getSharedInstance(this) }.getOrNull() ?: return
         val cp = androidx.media3.cast.CastPlayer(ctx)
         cp.setSessionAvailabilityListener(object : androidx.media3.cast.SessionAvailabilityListener {
-            override fun onCastSessionAvailable() = switchTo(cp)
+            override fun onCastSessionAvailable() {
+                c.dlna.active.value = null   // one remote at a time
+                switchTo(cp)
+            }
             override fun onCastSessionUnavailable() = switchTo(player)
         })
         castPlayer = cp
@@ -452,7 +460,26 @@ class PlaybackService : MediaLibraryService() {
         if (cp.isCastSessionAvailable) switchTo(cp)
     }
 
-    private fun switchTo(target: Player) {
+    // ---------------- DLNA ----------------
+
+    /** Picking a renderer moves the queue there; picking "this phone" (null) brings it back. */
+    private suspend fun followDlna() {
+        c.dlna.active.collect { r ->
+            val old = dlnaPlayer
+            if (r == null) {
+                if (old != null && session.player === old) switchTo(player) { old.release() }
+                else old?.release()
+                dlnaPlayer = null
+                return@collect
+            }
+            if (old?.renderer?.udn == r.udn) return@collect
+            val p = dev.slurpdrome.player.dlna.DlnaPlayer(this, mainLooper, c.dlna.client, r)
+            dlnaPlayer = p
+            switchTo(p) { old?.release() }
+        }
+    }
+
+    private fun switchTo(target: Player, after: () -> Unit = {}) {
         val from = session.player
         if (from === target) return
         val ids = (0 until from.mediaItemCount).map { from.getMediaItemAt(it).mediaId }
@@ -463,7 +490,9 @@ class PlaybackService : MediaLibraryService() {
         scope.launch {
             val songs = c.library.songsByIds(ids)
             val toCast = target === castPlayer
-            val pairs = songs.mapNotNull { s -> (if (toCast) c.mediaItems.castItem(s) else c.mediaItems.playable(s))?.let { s.id to it } }
+            // Remote targets fetch the stream themselves: they need plain server URLs (local-only files are skipped).
+            val toRemote = target !== player
+            val pairs = songs.mapNotNull { s -> (if (toRemote) c.mediaItems.castItem(s) else c.mediaItems.playable(s))?.let { s.id to it } }
             val idx = pairs.indexOfFirst { it.first == currentId }.coerceAtLeast(0)
             session.player = target
             if (pairs.isNotEmpty()) {
@@ -471,8 +500,9 @@ class PlaybackService : MediaLibraryService() {
                 target.prepare()
                 target.playWhenReady = play
             }
-            if (from === castPlayer) from.stop() else from.clearMediaItems()
+            if (from === player) from.clearMediaItems() else from.stop()
             c.castActive.value = toCast
+            after()
         }
     }
 
@@ -509,7 +539,7 @@ class PlaybackService : MediaLibraryService() {
         while (scope.isActive) {
             delay(120)
             val sec = c.settingsState.value.crossfadeSec
-            if (sec <= 0 || fading || casting) continue
+            if (sec <= 0 || fading || remote) continue
             val p = player
             if (!p.isPlaying || p.repeatMode == Player.REPEAT_MODE_ONE || p.shuffleModeEnabled) continue
             val next = p.currentMediaItemIndex + 1

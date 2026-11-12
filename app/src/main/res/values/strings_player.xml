@@ -116,4 +116,12 @@
     <string name="np_show_lyrics">Lyrics</string>
     <string name="np_show_player">Artwork</string>
     <string name="np_drag_to_reorder">Drag to reorder</string>
+    <string name="output_title">Play on</string>
+    <string name="output_this_phone">This phone</string>
+    <string name="output_chromecast_pick">Choose a device…</string>
+    <string name="output_chromecast_connected">Connected · tap to disconnect</string>
+    <string name="output_searching">Searching the network…</string>
+    <string name="output_none">Nothing found. Devices must be on the same Wi-Fi.</string>
+    <string name="output_rescan">Search again</string>
+    <string name="output_local_note">Tracks that exist only on this phone are skipped on other devices.</string>
 </resources>

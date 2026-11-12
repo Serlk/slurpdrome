@@ -176,7 +176,7 @@ fun NowPlayingContent(sheet: dev.slurpdrome.ui.components.PlayerSheetState) {
                         Icons.Default.Lyrics, stringResource(R.string.np_show_lyrics),
                         tint = if (lyrics) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                     ) { sheet.tab = if (lyrics) 0 else 2 }
-                    dev.slurpdrome.ui.components.CastButton()
+                    dev.slurpdrome.ui.components.OutputButton()
                     if (song != null) FIconButton(Icons.Default.MoreVert, stringResource(R.string.common_actions)) { ui.songMenu(song) }
                 }
             }
@@ -442,6 +442,8 @@ private fun ControlsBlock(state: PlayerUiState, song: SongEntity, compact: Boole
             if (radio) Pill(stringResource(R.string.np_pill_radio))
             val casting by c.castActive.collectAsState()
             if (casting) Pill("CHROMECAST")
+            val dlna by c.dlna.active.collectAsState()
+            dlna?.let { Pill(it.name.uppercase()) }
             if (settings.playbackSpeed != 1f) Pill("×${settings.playbackSpeed}")
             if (sleep.active) Pill(stringResource(if (sleep.endOfTrack) R.string.np_pill_sleep_end_of_track else R.string.np_pill_sleep))
         }

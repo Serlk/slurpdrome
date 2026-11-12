@@ -12,7 +12,8 @@ A Navidrome client for Android, built for both touchscreens and keypad phones (K
 - **Mixes and smart playlists**, device-local playlists mixing tracks from several sources.
 - **CUE images** — single-file albums with an embedded CUESHEET are split into virtual tracks.
 - **Audiobooks** — resume points synced with Navidrome bookmarks, bookmarks, separate speed.
-- **Android Auto, Chromecast, home-screen widget.**
+- **Play on other devices** — Chromecast and DLNA/UPnP renderers (receivers, speakers, TVs) from one "Play on" picker; the renderer gets the next track in advance so it continues even while the phone sleeps.
+- **Android Auto, home-screen widget.**
 - **D-pad and hardware keyboard** are first-class: focus rings, Enter/Menu handling, hotkeys (`?` or F1 lists them), T9-style keypad mode.
 - Light/dark themes following the system, accent colors, Material You; English and Russian UI following the phone language.
 
@@ -44,6 +45,7 @@ Image albums (one FLAC with an embedded CUESHEET) are split into virtual tracks;
 - `player/eq` — DSP inside ExoPlayer's audio pipeline, AutoEQ profiles, output-device detection.
 - `player/LibraryTree.kt` — browse tree for Android Auto (`MediaLibraryService`).
 - Chromecast — `CastPlayer`, queue/position handover in both directions.
+- `player/dlna` — SSDP discovery, UPnP AVTransport/RenderingControl client, `DlnaPlayer` (a Media3 `SimpleBasePlayer`) that the session switches to like Chromecast.
 - `widget` — adaptive Glance widget; the service publishes its state.
 - `ui` — Compose; draggable player sheet (`ui/components/PlayerSheet.kt`), frosted-glass bars (Haze), D-pad focus handling (`ui/components/Focus.kt`), hotkeys (`ui/keys/Hotkeys.kt`), themes with a palette generator seeded from the accent color.
 
@@ -53,4 +55,4 @@ a manual download, "Auto-save favorites" (off by default), or a pinned album/art
 Stars, ratings and scrobbles made without a connection are sent once it's back.
 
 ## Roadmap
-UPnP/DLNA, the Titan 2 rear screen, .lrc lyrics for local files.
+The Titan 2 rear screen, .lrc lyrics for local files.

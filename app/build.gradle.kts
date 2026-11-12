@@ -64,6 +64,7 @@ dependencies {
     implementation("androidx.media3:media3-datasource-okhttp:$media3")
     implementation("androidx.media3:media3-cast:$media3")
     implementation("androidx.mediarouter:mediarouter:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")   // already pulled in by mediarouter; used for its route chooser dialog
 
     val room = "2.6.1"
     implementation("androidx.room:room-runtime:$room")

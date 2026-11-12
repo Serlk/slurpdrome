@@ -168,6 +168,8 @@ class AppContainer(val app: Application) {
     /** Chromecast: framework available on this device / a cast session is driving playback. */
     val castAvailable = MutableStateFlow(false)
     val castActive = MutableStateFlow(false)
+    /** DLNA/UPnP renderers on the local network; [DlnaManager.active] = where playback goes. */
+    val dlna by lazy { dev.slurpdrome.player.dlna.DlnaManager(app) }
 
     /** Endless radio: keep extending the queue with an adaptive instant mix. */
     val radioEnabled = MutableStateFlow(false)
