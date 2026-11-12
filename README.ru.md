@@ -1,8 +1,33 @@
-# Slurpdrome
+<p align="center">
+  <img src="fastlane/metadata/android/en-US/images/icon.png" width="96" alt="Slurpdrome icon">
+</p>
 
-[English](README.md) · **Русский**
+<h1 align="center">Slurpdrome</h1>
 
-Клиент Navidrome для Android (Kotlin · Jetpack Compose · Media3 · Room). minSdk 26.
+<p align="center">Музыкальный плеер для своего сервера <a href="https://www.navidrome.org/">Navidrome</a> и музыки на телефоне —<br>одинаково удобный с сенсорным экраном и с кнопками.</p>
+
+<p align="center"><a href="README.md">English</a> · <b>Русский</b></p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="License: GPL-3.0-or-later" src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue"></a>
+  <img alt="Android 8.0+" src="https://img.shields.io/badge/Android-8.0%2B-3DDC84">
+  <a href="https://github.com/Serlk/slurpdrome/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Serlk/slurpdrome?include_prereleases"></a>
+</p>
+
+<table>
+  <tr>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="Плеер — волна вместо ползунка, свайп для переключения"><br><sub>Плеер — волна вместо ползунка, свайп для переключения</sub></td>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="Очередь — перетаскивание"><br><sub>Очередь — перетаскивание</sub></td>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" alt="Главная — новое, частое, избранное"><br><sub>Главная — новое, частое, избранное</sub></td>
+  </tr>
+  <tr>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="Медиатека — все источники в одном месте"><br><sub>Медиатека — все источники в одном месте</sub></td>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" alt="Альбом"><br><sub>Альбом</sub></td>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" alt="Эквалайзер — профили наушников AutoEQ"><br><sub>Эквалайзер — профили наушников AutoEQ</sub></td>
+  </tr>
+</table>
+
+Kotlin · Jetpack Compose · Media3 · Room · minSdk 26.
 
 ## Сборка
 ```sh

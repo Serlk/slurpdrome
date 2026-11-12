@@ -1,8 +1,33 @@
-# Slurpdrome
+<p align="center">
+  <img src="fastlane/metadata/android/en-US/images/icon.png" width="96" alt="Slurpdrome icon">
+</p>
 
-**English** · [Русский](README.ru.md)
+<h1 align="center">Slurpdrome</h1>
 
-A Navidrome client for Android, built for both touchscreens and keypad phones (Kotlin · Jetpack Compose · Media3 · Room). minSdk 26.
+<p align="center">A music player for your own <a href="https://www.navidrome.org/">Navidrome</a> server and the music on your phone —<br>built for touchscreens and keypad phones alike.</p>
+
+<p align="center"><b>English</b> · <a href="README.ru.md">Русский</a></p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="License: GPL-3.0-or-later" src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue"></a>
+  <img alt="Android 8.0+" src="https://img.shields.io/badge/Android-8.0%2B-3DDC84">
+  <a href="https://github.com/Serlk/slurpdrome/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Serlk/slurpdrome?include_prereleases"></a>
+</p>
+
+<table>
+  <tr>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="Player — waveform seek bar, swipe to skip"><br><sub>Player — waveform seek bar, swipe to skip</sub></td>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="Queue — drag to reorder"><br><sub>Queue — drag to reorder</sub></td>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" alt="Home — recently added, most played, favorites"><br><sub>Home — recently added, most played, favorites</sub></td>
+  </tr>
+  <tr>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="Library — one view over all sources"><br><sub>Library — one view over all sources</sub></td>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" alt="Album"><br><sub>Album</sub></td>
+    <td align="center" width="33%"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" alt="Equalizer — AutoEQ headphone profiles"><br><sub>Equalizer — AutoEQ headphone profiles</sub></td>
+  </tr>
+</table>
+
+Kotlin · Jetpack Compose · Media3 · Room · minSdk 26.
 
 ## Features
 - **One library from many sources** — any number of Navidrome servers plus music on the phone, merged without restarts; duplicates across sources are folded into one entry.
