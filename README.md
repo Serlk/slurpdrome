@@ -1,37 +1,56 @@
 # Slurpdrome
 
-Клиент Navidrome для Android (Kotlin · Jetpack Compose · Media3 · Room). minSdk 26.
+**English** · [Русский](README.ru.md)
 
-## Сборка
+A Navidrome client for Android, built for both touchscreens and keypad phones (Kotlin · Jetpack Compose · Media3 · Room). minSdk 26.
+
+## Features
+- **One library from many sources** — any number of Navidrome servers plus music on the phone, merged without restarts; duplicates across sources are folded into one entry.
+- **Offline first** — LRU stream cache (up to 100 GB), explicit downloads, optional auto-download of favorites (off by default), Wi-Fi / mobile-data aware background downloads.
+- **Player** — gapless ExoPlayer, ReplayGain, endless continuation for mixes and radio (your own playlists stop at the end), waveform seek bar once a track is fully cached, swipe anywhere to skip, double-tap the cover to like, queue in a pull-up panel, synced lyrics.
+- **Equalizer** — custom DSP (RBJ biquads, preamp, limiter), ~8800 AutoEQ headphone profiles, per-output-device switching.
+- **Mixes and smart playlists**, device-local playlists mixing tracks from several sources.
+- **CUE images** — single-file albums with an embedded CUESHEET are split into virtual tracks.
+- **Audiobooks** — resume points synced with Navidrome bookmarks, bookmarks, separate speed.
+- **Android Auto, Chromecast, home-screen widget.**
+- **D-pad and hardware keyboard** are first-class: focus rings, Enter/Menu handling, hotkeys (`?` or F1 lists them), T9-style keypad mode.
+- Light/dark themes following the system, accent colors, Material You; English and Russian UI following the phone language.
+
+## Build
 ```sh
 export JAVA_HOME=~/.local/jdk-17 ANDROID_HOME=~/Android/Sdk
-./gradlew assembleRelease      # app/build/outputs/apk/release/app-release.apk (подписан debug-ключом)
-./gradlew testDebugUnitTest    # логика + живой тест API против demo.navidrome.org
+./gradlew assembleRelease      # app/build/outputs/apk/release/app-release.apk (signed with the debug key)
+./gradlew testDebugUnitTest    # logic tests + a live API test against demo.navidrome.org
 ```
 
-## Источники
-Медиатека собирается из любого числа источников одновременно: серверы Navidrome и музыка на телефоне (MediaStore).
-Все id глобальные — `<sourceId>~<rawId>` (`s1~abc`, `local~4521`), запросы к API маршрутизируются по префиксу
-(`data/source/Sources.kt`). Синхронизация идёт по каждому источнику отдельно; сбой одного не трогает остальные.
-Плейлисты Navidrome живут на своём сервере; умные плейлисты, миксы, поиск и очередь — поверх всех источников.
+## Sources
+The library is assembled from any number of sources at once: Navidrome servers and music on the phone (MediaStore).
+All ids are global — `<sourceId>~<rawId>` (`s1~abc`, `local~4521`) — and API calls are routed by that prefix
+(`data/source/Sources.kt`). Each source syncs independently; one failing doesn't affect the others.
+Navidrome playlists live on their server; smart playlists, mixes, search and the queue work across all sources.
 
-## Архитектура
-- `data/api` — Subsonic/OpenSubsonic клиент (token-auth, retry/backoff для идемпотентных вызовов).
-- `data/db` — Room: полное зеркало библиотеки, загрузки, офлайн-пины, история прослушиваний, отложенные действия, тексты, умные плейлисты, очередь.
-- `data/repo` — синхронизация, `DownloadManager` (правила офлайна + WorkManager), `MixEngine` (рекомендации), `SmartQuery` (правила → SQL), тексты (OpenSubsonic + LRC).
-- `player` — `PlaybackService` (ExoPlayer + LRU-кеш стрима, предзагрузка 2 треков, скробблинг, ReplayGain, бесконечное радио, восстановление очереди), `PlayerConnection` для UI.
-- `player/eq` — свой DSP в аудиоконвейере ExoPlayer: RBJ-биквады, предусиление, лимитер; профили AutoEQ (≈8800) и автопереключение по устройству вывода.
-- `player/LibraryTree.kt` — дерево каталога для Android Auto (`MediaLibraryService`).
-- Chromecast — `CastPlayer`, передача очереди/позиции при подключении и обратно.
-- `widget` — адаптивный виджет на Glance; состояние публикует сервис.
-- `data/repo/AudiobookRepository.kt` — позиции возобновления (синхронизируются с закладками Navidrome), закладки, отдельная скорость.
-- `data/source/ArtworkProvider.kt` — content:// обложки для уведомления, Auto, виджета и локальных файлов.
-- `ui` — Compose; выдвижной плеер следует за пальцем (`ui/components/PlayerSheet.kt`), фокус-кольца и Menu/M для D-pad, хоткеи (`ui/keys/Hotkeys.kt`), темы с генератором палитры от акцентного цвета.
+## Duplicates and CUE
+Identical albums/tracks from different sources are merged into one entry. At playback time the best copy is picked
+(local > downloaded > reachable server by priority > quality), with automatic failover to another copy on errors.
+Image albums (one FLAC with an embedded CUESHEET) are split into virtual tracks; `tools/embed-cue.sh` embeds external
+.cue files into FLACs on the server.
 
-## Офлайн
-Два слоя: LRU-кеш стриминга (ключ = песня+качество) и явные загрузки. Трек хранится, если его хочет хоть одно правило:
-ручная загрузка, «Автосохранение избранного» (по умолчанию выкл.), закреплённый альбом/исполнитель/плейлист/умный плейлист.
-Избранное, рейтинги и скробблы, сделанные без сети, отправляются при появлении связи.
+## Architecture
+- `data/api` — Subsonic/OpenSubsonic client (token auth, retry/backoff for idempotent calls, adaptive connection reuse).
+- `data/db` — Room: full library mirror, downloads, offline pins, play history, pending actions, lyrics, smart playlists, queue.
+- `data/repo` — sync, `DownloadManager` (offline rules + WorkManager), `MixEngine` (recommendations), `SmartQuery` (rules → SQL), lyrics (OpenSubsonic + LRC).
+- `data/source` — source registry, dedup (`Deduper`), CUE parsing/splitting, MediaStore scanner, artwork provider.
+- `player` — `PlaybackService` (ExoPlayer + LRU stream cache, prefetch of the next 2 tracks, scrobbling, ReplayGain, endless radio, queue restore, copy failover), `PlayerConnection` for the UI, `Waveform` (loudness profile via MediaCodec).
+- `player/eq` — DSP inside ExoPlayer's audio pipeline, AutoEQ profiles, output-device detection.
+- `player/LibraryTree.kt` — browse tree for Android Auto (`MediaLibraryService`).
+- Chromecast — `CastPlayer`, queue/position handover in both directions.
+- `widget` — adaptive Glance widget; the service publishes its state.
+- `ui` — Compose; draggable player sheet (`ui/components/PlayerSheet.kt`), frosted-glass bars (Haze), D-pad focus handling (`ui/components/Focus.kt`), hotkeys (`ui/keys/Hotkeys.kt`), themes with a palette generator seeded from the accent color.
+
+## Offline
+Two layers: an LRU stream cache (keyed by song + quality) and explicit downloads. A track is kept if any rule wants it:
+a manual download, "Auto-save favorites" (off by default), or a pinned album/artist/playlist/smart playlist.
+Stars, ratings and scrobbles made without a connection are sent once it's back.
 
 ## Roadmap
-Слияние дублей альбомов между источниками, UPnP/DLNA, drag-and-drop в очереди, задний экран Titan 2, тексты из .lrc для локальных файлов.
+UPnP/DLNA, drag-and-drop in the queue, the Titan 2 rear screen, .lrc lyrics for local files.
