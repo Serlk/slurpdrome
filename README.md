@@ -29,6 +29,18 @@
 
 Kotlin · Jetpack Compose · Media3 · Room · minSdk 26.
 
+## Install
+<table align="center">
+  <tr>
+    <td align="center"><a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22io.github.serlk.slurpdrome%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FSerlk%2Fslurpdrome%22%2C%22author%22%3A%22Serlk%22%2C%22name%22%3A%22Slurpdrome%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22-full%5B.%5Dapk%24%5C%22%7D%22%7D"><img src="docs/badge_obtainium.png" width="200" alt="Get it on Obtainium (full)"></a><br><sub><b>full</b> — with Chromecast</sub></td>
+    <td align="center"><a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22io.github.serlk.slurpdrome%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FSerlk%2Fslurpdrome%22%2C%22author%22%3A%22Serlk%22%2C%22name%22%3A%22Slurpdrome%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22-foss%5B.%5Dapk%24%5C%22%7D%22%7D"><img src="docs/badge_obtainium.png" width="200" alt="Get it on Obtainium (foss)"></a><br><sub><b>foss</b> — free dependencies only</sub></td>
+  </tr>
+</table>
+
+[Obtainium](https://obtainium.imranr.dev/) installs the app straight from the GitHub releases and keeps it updated.
+Install Obtainium, then tap a button above on your phone: the app is added with the right APK pre-selected.
+Or download an APK from [Releases](https://github.com/Serlk/slurpdrome/releases). Both variants share one signing key, so you can switch between them in place.
+
 ## Features
 - **One library from many sources** — any number of Navidrome servers plus music on the phone, merged without restarts; duplicates across sources are folded into one entry.
 - **Offline first** — LRU stream cache (up to 100 GB), explicit downloads, optional auto-download of favorites (off by default), Wi-Fi / mobile-data aware background downloads.

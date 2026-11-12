@@ -29,6 +29,18 @@
 
 Kotlin · Jetpack Compose · Media3 · Room · minSdk 26.
 
+## Установка
+<table align="center">
+  <tr>
+    <td align="center"><a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22io.github.serlk.slurpdrome%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FSerlk%2Fslurpdrome%22%2C%22author%22%3A%22Serlk%22%2C%22name%22%3A%22Slurpdrome%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22-full%5B.%5Dapk%24%5C%22%7D%22%7D"><img src="docs/badge_obtainium.png" width="200" alt="Get it on Obtainium (full)"></a><br><sub><b>full</b> — с Chromecast</sub></td>
+    <td align="center"><a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22io.github.serlk.slurpdrome%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FSerlk%2Fslurpdrome%22%2C%22author%22%3A%22Serlk%22%2C%22name%22%3A%22Slurpdrome%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22-foss%5B.%5Dapk%24%5C%22%7D%22%7D"><img src="docs/badge_obtainium.png" width="200" alt="Get it on Obtainium (foss)"></a><br><sub><b>foss</b> — только свободные зависимости</sub></td>
+  </tr>
+</table>
+
+[Obtainium](https://obtainium.imranr.dev/) ставит приложение прямо из релизов на GitHub и сам его обновляет.
+Установите Obtainium и нажмите кнопку выше на телефоне — приложение добавится с уже выбранным нужным APK.
+Или скачайте APK со страницы [релизов](https://github.com/Serlk/slurpdrome/releases). Оба варианта подписаны одним ключом, между ними можно переключаться без переустановки.
+
 ## Сборка
 ```sh
 export JAVA_HOME=~/.local/jdk-17 ANDROID_HOME=~/Android/Sdk
