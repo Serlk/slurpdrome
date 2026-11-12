@@ -1,0 +1,185 @@
+<resources>
+    <string name="app_name" translatable="false">Slurpdrome</string>
+    <string name="widget_description">Now playing: artwork and controls</string>
+
+    <!-- Common actions -->
+    <string name="common_cancel">Cancel</string>
+    <string name="common_ok">OK</string>
+    <string name="common_save">Save</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_close">Close</string>
+    <string name="common_create">Create</string>
+    <string name="common_done">Done</string>
+    <string name="common_back">Back</string>
+    <string name="common_actions">Actions</string>
+    <string name="common_show_all">Show all</string>
+    <string name="common_play">Play</string>
+    <string name="common_pause">Pause</string>
+    <string name="common_next">Next</string>
+    <string name="common_got_it">Got it</string>
+
+    <!-- Counts and units -->
+    <plurals name="tracks">
+        <item quantity="one">%d track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
+    <string name="duration_h_min">%1$d h %2$d min</string>
+    <string name="duration_min">%1$d min</string>
+    <string name="unit_mb">%1$s MB</string>
+    <string name="unit_gb">%1$s GB</string>
+    <string name="unit_khz">%1$s kHz</string>
+    <string name="unit_hz">%1$s Hz</string>
+    <string name="artist_album_count">Albums: %1$d</string>
+    <string name="rating_n_of_5">%1$d of 5</string>
+
+    <!-- Navigation -->
+    <string name="tab_home">Home</string>
+    <string name="tab_library">Library</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_playlists">Playlists</string>
+    <string name="banner_offline_mode">Offline mode: downloads only</string>
+    <string name="banner_no_network">No connection — playing downloads, cache and local files</string>
+
+    <!-- Hotkeys -->
+    <string name="hotkeys_title">Keyboard shortcuts</string>
+    <string name="hotkeys_section_keypad">Keypad phone (T9)</string>
+    <string name="hotkeys_section_keyboard">Keyboard</string>
+    <string name="hotkey_keys_next_prev">N / P  or  ] / [</string>
+    <string name="hotkey_play_pause">Play / pause</string>
+    <string name="hotkey_seek">Seek back / forward</string>
+    <string name="hotkey_next_prev_track">Next / previous track</string>
+    <string name="hotkey_prev_next">Previous / next</string>
+    <string name="hotkey_favorite">Add to favorites</string>
+    <string name="hotkey_rate">Set rating</string>
+    <string name="hotkey_shuffle_repeat">Shuffle / repeat</string>
+    <string name="hotkey_search">Search</string>
+    <string name="hotkey_player_queue_lyrics">Player / queue / lyrics</string>
+    <string name="hotkey_player_queue">Player / queue</string>
+    <string name="hotkey_lyrics">Lyrics</string>
+    <string name="hotkey_home_library_playlists">Home / library / playlists</string>
+    <string name="hotkey_settings">Settings</string>
+    <string name="hotkey_item_actions">Actions for the selected item</string>
+    <string name="hotkey_this_help">This help</string>
+
+    <!-- Home sections -->
+    <string name="home_section_mixes">Made for you</string>
+    <string name="home_section_continue">Continue listening</string>
+    <string name="home_section_recently_played">Recently played</string>
+    <string name="home_section_recently_added">Recently added</string>
+    <string name="home_section_most_played">Most played</string>
+    <string name="home_section_favorites">Favorites</string>
+    <string name="home_section_random_albums">Random albums</string>
+    <string name="home_section_downloaded">Available offline</string>
+
+    <!-- Sorting -->
+    <string name="sort_title">Title</string>
+    <string name="sort_name">Name</string>
+    <string name="sort_artist">Artist</string>
+    <string name="sort_album">Album</string>
+    <string name="sort_added">Date added</string>
+    <string name="sort_year">Year</string>
+    <string name="sort_plays">Play count</string>
+    <string name="sort_last_played">Last played</string>
+    <string name="sort_rating">Rating</string>
+    <string name="sort_duration">Duration</string>
+
+    <!-- Smart playlist fields -->
+    <string name="smart_field_title">Title</string>
+    <string name="smart_field_artist">Artist</string>
+    <string name="smart_field_album">Album</string>
+    <string name="smart_field_genre">Genre</string>
+    <string name="smart_field_format">Format</string>
+    <string name="smart_field_year">Year</string>
+    <string name="smart_field_rating">Rating</string>
+    <string name="smart_field_play_count">Play count</string>
+    <string name="smart_field_duration">Duration, sec</string>
+    <string name="smart_field_bitrate">Bitrate, kbps</string>
+    <string name="smart_field_bpm" translatable="false">BPM</string>
+    <string name="smart_field_starred">Favorite</string>
+    <string name="smart_field_downloaded">Downloaded</string>
+    <string name="smart_field_added">Added</string>
+    <string name="smart_field_played">Played</string>
+    <!-- Smart playlist operators -->
+    <string name="smart_op_contains">contains</string>
+    <string name="smart_op_not_contains">does not contain</string>
+    <string name="smart_op_is">is</string>
+    <string name="smart_op_is_not">is not</string>
+    <string name="smart_op_starts_with">starts with</string>
+    <string name="smart_op_gt">greater than</string>
+    <string name="smart_op_lt">less than</string>
+    <string name="smart_op_between">between</string>
+    <string name="smart_op_true">yes</string>
+    <string name="smart_op_false">no</string>
+    <string name="smart_op_in_last">in the last N days</string>
+    <string name="smart_op_not_in_last">not in the last N days</string>
+    <string name="smart_op_never">never</string>
+    <!-- Smart playlist templates -->
+    <string name="smart_tpl_loved_forgotten">Loved but forgotten</string>
+    <string name="smart_tpl_never_played">Never played</string>
+    <string name="smart_tpl_fresh">Fresh arrivals</string>
+    <string name="smart_tpl_top_rated">Top rated</string>
+    <string name="smart_tpl_lossless">Lossless</string>
+    <string name="smart_tpl_2000s">The 2000s</string>
+
+    <!-- Mixes -->
+    <string name="mix_my_title">My Mix</string>
+    <string name="mix_my_subtitle">Favorites mixed with something new</string>
+    <string name="mix_discovery_title">Discovery</string>
+    <string name="mix_discovery_subtitle">Stuff you haven\'t heard yet</string>
+    <string name="mix_forgotten_title">Forgotten hits</string>
+    <string name="mix_forgotten_subtitle">Not played in a while</string>
+    <string name="mix_genre_title">%1$s Mix</string>
+    <string name="mix_genre_subtitle">A genre you listen to the most</string>
+    <string name="mix_artist_title">%1$s Radio</string>
+    <string name="mix_artist_subtitle">%1$s and similar artists</string>
+    <string name="mix_random_title">Random Mix</string>
+    <string name="mix_random_subtitle">Your whole library, shuffled</string>
+
+    <!-- Equalizer presets and outputs -->
+    <string name="eq_preset_flat">Flat</string>
+    <string name="eq_preset_bass">Bass boost</string>
+    <string name="eq_preset_treble">Treble boost</string>
+    <string name="eq_preset_vocal">Vocal</string>
+    <string name="eq_preset_loudness">Loudness (low volume)</string>
+    <string name="eq_preset_rock">Rock</string>
+    <string name="eq_preset_electronic">Electronic</string>
+    <string name="eq_preset_podcast">Speech / podcasts</string>
+    <string name="output_speaker">Phone speaker</string>
+    <string name="output_wired">Wired headphones</string>
+    <string name="output_usb">USB audio</string>
+    <string name="output_other">Output device</string>
+    <string name="eq_profile_not_recognized">Couldn\'t recognize the profile</string>
+
+    <!-- Sync -->
+    <string name="sync_stage_waiting_network">Waiting for network</string>
+    <string name="sync_stage_scanning_device">Scanning device</string>
+    <string name="sync_stage_artists">Artists</string>
+    <string name="sync_stage_albums">Albums</string>
+    <string name="sync_stage_tracks">Tracks</string>
+    <string name="sync_stage_playlists">Playlists</string>
+    <string name="notif_channel_sync">Sync</string>
+    <string name="notif_sync_title">Syncing library</string>
+    <string name="notif_channel_downloads">Downloads</string>
+    <string name="notif_download_title">Downloading for offline</string>
+    <string name="notif_download_preparing">Preparing…</string>
+
+    <!-- Library / sources -->
+    <string name="unknown_artist">Unknown artist</string>
+    <string name="err_playlists_server_only">Playlists are only available on Navidrome servers</string>
+    <string name="err_no_servers">No servers connected</string>
+    <string name="err_playlist_other_source">Tracks from another source can\'t be added to this playlist</string>
+
+    <!-- Android Auto -->
+    <string name="auto_continue">Continue</string>
+    <string name="auto_mixes">Mixes</string>
+    <string name="auto_recent_albums">Recent albums</string>
+    <string name="auto_playlists">Playlists</string>
+    <string name="auto_artists">Artists</string>
+    <string name="auto_favorites">Favorites</string>
+    <string name="auto_downloads">Downloads</string>
+    <string name="auto_on_device">On device</string>
+    <string name="auto_smart_playlist">Smart playlist</string>
+
+    <!-- Widget -->
+    <string name="widget_nothing_playing">Nothing playing</string>
+</resources>

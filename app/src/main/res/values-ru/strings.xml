@@ -1,0 +1,185 @@
+<resources>
+    <string name="widget_description">Сейчас играет: обложка и управление</string>
+
+    <!-- Common actions -->
+    <string name="common_cancel">Отмена</string>
+    <string name="common_ok">ОК</string>
+    <string name="common_save">Сохранить</string>
+    <string name="common_delete">Удалить</string>
+    <string name="common_close">Закрыть</string>
+    <string name="common_create">Создать</string>
+    <string name="common_done">Готово</string>
+    <string name="common_back">Назад</string>
+    <string name="common_actions">Действия</string>
+    <string name="common_show_all">Показать всё</string>
+    <string name="common_play">Играть</string>
+    <string name="common_pause">Пауза</string>
+    <string name="common_next">Следующий</string>
+    <string name="common_got_it">Понятно</string>
+
+    <!-- Counts and units -->
+    <plurals name="tracks">
+        <item quantity="one">%d трек</item>
+        <item quantity="few">%d трека</item>
+        <item quantity="many">%d треков</item>
+        <item quantity="other">%d трека</item>
+    </plurals>
+    <string name="duration_h_min">%1$d ч %2$d мин</string>
+    <string name="duration_min">%1$d мин</string>
+    <string name="unit_mb">%1$s МБ</string>
+    <string name="unit_gb">%1$s ГБ</string>
+    <string name="unit_khz">%1$s кГц</string>
+    <string name="unit_hz">%1$s Гц</string>
+    <string name="artist_album_count">Альбомов: %1$d</string>
+    <string name="rating_n_of_5">%1$d из 5</string>
+
+    <!-- Navigation -->
+    <string name="tab_home">Главная</string>
+    <string name="tab_library">Медиатека</string>
+    <string name="tab_search">Поиск</string>
+    <string name="tab_playlists">Плейлисты</string>
+    <string name="banner_offline_mode">Офлайн-режим: только скачанное</string>
+    <string name="banner_no_network">Нет сети — играет скачанное, кеш и локальные файлы</string>
+
+    <!-- Hotkeys -->
+    <string name="hotkeys_title">Горячие клавиши</string>
+    <string name="hotkeys_section_keypad">Кнопочный телефон (T9)</string>
+    <string name="hotkeys_section_keyboard">Клавиатура</string>
+    <string name="hotkey_keys_next_prev">N / P  или  ] / [</string>
+    <string name="hotkey_play_pause">Пауза / воспроизведение</string>
+    <string name="hotkey_seek">Перемотка назад / вперёд</string>
+    <string name="hotkey_next_prev_track">Следующий / предыдущий трек</string>
+    <string name="hotkey_prev_next">Предыдущий / следующий</string>
+    <string name="hotkey_favorite">В избранное</string>
+    <string name="hotkey_rate">Поставить рейтинг</string>
+    <string name="hotkey_shuffle_repeat">Перемешать / повтор</string>
+    <string name="hotkey_search">Поиск</string>
+    <string name="hotkey_player_queue_lyrics">Плеер / очередь / текст</string>
+    <string name="hotkey_player_queue">Плеер / очередь</string>
+    <string name="hotkey_lyrics">Текст песни</string>
+    <string name="hotkey_home_library_playlists">Главная / медиатека / плейлисты</string>
+    <string name="hotkey_settings">Настройки</string>
+    <string name="hotkey_item_actions">Действия с выбранным элементом</string>
+    <string name="hotkey_this_help">Эта справка</string>
+
+    <!-- Home sections -->
+    <string name="home_section_mixes">Миксы для вас</string>
+    <string name="home_section_continue">Продолжить слушать</string>
+    <string name="home_section_recently_played">Недавно слушали</string>
+    <string name="home_section_recently_added">Новое в библиотеке</string>
+    <string name="home_section_most_played">Часто слушаете</string>
+    <string name="home_section_favorites">Избранное</string>
+    <string name="home_section_random_albums">Случайные альбомы</string>
+    <string name="home_section_downloaded">Доступно офлайн</string>
+
+    <!-- Sorting -->
+    <string name="sort_title">Название</string>
+    <string name="sort_name">Название</string>
+    <string name="sort_artist">Исполнитель</string>
+    <string name="sort_album">Альбом</string>
+    <string name="sort_added">Дата добавления</string>
+    <string name="sort_year">Год</string>
+    <string name="sort_plays">Прослушивания</string>
+    <string name="sort_last_played">Последнее прослушивание</string>
+    <string name="sort_rating">Рейтинг</string>
+    <string name="sort_duration">Длительность</string>
+
+    <!-- Smart playlist fields -->
+    <string name="smart_field_title">Название</string>
+    <string name="smart_field_artist">Исполнитель</string>
+    <string name="smart_field_album">Альбом</string>
+    <string name="smart_field_genre">Жанр</string>
+    <string name="smart_field_format">Формат</string>
+    <string name="smart_field_year">Год</string>
+    <string name="smart_field_rating">Рейтинг</string>
+    <string name="smart_field_play_count">Прослушиваний</string>
+    <string name="smart_field_duration">Длительность, сек</string>
+    <string name="smart_field_bitrate">Битрейт, kbps</string>
+    <string name="smart_field_starred">В избранном</string>
+    <string name="smart_field_downloaded">Скачан</string>
+    <string name="smart_field_added">Добавлен</string>
+    <string name="smart_field_played">Слушал</string>
+    <!-- Smart playlist operators -->
+    <string name="smart_op_contains">содержит</string>
+    <string name="smart_op_not_contains">не содержит</string>
+    <string name="smart_op_is">равно</string>
+    <string name="smart_op_is_not">не равно</string>
+    <string name="smart_op_starts_with">начинается с</string>
+    <string name="smart_op_gt">больше</string>
+    <string name="smart_op_lt">меньше</string>
+    <string name="smart_op_between">от..до</string>
+    <string name="smart_op_true">да</string>
+    <string name="smart_op_false">нет</string>
+    <string name="smart_op_in_last">за последние N дней</string>
+    <string name="smart_op_not_in_last">не за последние N дней</string>
+    <string name="smart_op_never">никогда</string>
+    <!-- Smart playlist templates -->
+    <string name="smart_tpl_loved_forgotten">Любимое, но забытое</string>
+    <string name="smart_tpl_never_played">Никогда не слушал</string>
+    <string name="smart_tpl_fresh">Свежие поступления</string>
+    <string name="smart_tpl_top_rated">Высокий рейтинг</string>
+    <string name="smart_tpl_lossless">Lossless</string>
+    <string name="smart_tpl_2000s">Нулевые</string>
+
+    <!-- Mixes -->
+    <string name="mix_my_title">Мой микс</string>
+    <string name="mix_my_subtitle">Любимое вперемешку с новым</string>
+    <string name="mix_discovery_title">Открытия</string>
+    <string name="mix_discovery_subtitle">Вы это ещё не слушали</string>
+    <string name="mix_forgotten_title">Забытые хиты</string>
+    <string name="mix_forgotten_subtitle">Давно не звучали</string>
+    <string name="mix_genre_title">Микс: %1$s</string>
+    <string name="mix_genre_subtitle">Жанр, который вы слушаете чаще всего</string>
+    <string name="mix_artist_title">Радио: %1$s</string>
+    <string name="mix_artist_subtitle">%1$s и похожие исполнители</string>
+    <string name="mix_random_title">Случайный микс</string>
+    <string name="mix_random_subtitle">Вся библиотека в случайном порядке</string>
+
+    <!-- Equalizer presets and outputs -->
+    <string name="eq_preset_flat">Ровно</string>
+    <string name="eq_preset_bass">Больше баса</string>
+    <string name="eq_preset_treble">Больше верхов</string>
+    <string name="eq_preset_vocal">Вокал</string>
+    <string name="eq_preset_loudness">Громкость (тихо)</string>
+    <string name="eq_preset_rock">Рок</string>
+    <string name="eq_preset_electronic">Электроника</string>
+    <string name="eq_preset_podcast">Речь / подкасты</string>
+    <string name="output_speaker">Динамик телефона</string>
+    <string name="output_wired">Проводные наушники</string>
+    <string name="output_usb">USB-аудио</string>
+    <string name="output_other">Устройство вывода</string>
+    <string name="eq_profile_not_recognized">Профиль не распознан</string>
+
+    <!-- Sync -->
+    <string name="sync_stage_waiting_network">Ожидание сети</string>
+    <string name="sync_stage_scanning_device">Сканирование устройства</string>
+    <string name="sync_stage_artists">Исполнители</string>
+    <string name="sync_stage_albums">Альбомы</string>
+    <string name="sync_stage_tracks">Треки</string>
+    <string name="sync_stage_playlists">Плейлисты</string>
+    <string name="notif_channel_sync">Синхронизация</string>
+    <string name="notif_sync_title">Синхронизация библиотеки</string>
+    <string name="notif_channel_downloads">Загрузки</string>
+    <string name="notif_download_title">Загрузка для офлайна</string>
+    <string name="notif_download_preparing">Подготовка…</string>
+
+    <!-- Library / sources -->
+    <string name="unknown_artist">Неизвестный исполнитель</string>
+    <string name="err_playlists_server_only">Плейлисты есть только у серверов Navidrome</string>
+    <string name="err_no_servers">Нет подключённых серверов</string>
+    <string name="err_playlist_other_source">Треки с другого источника нельзя добавить в этот плейлист</string>
+
+    <!-- Android Auto -->
+    <string name="auto_continue">Продолжить</string>
+    <string name="auto_mixes">Миксы</string>
+    <string name="auto_recent_albums">Недавние альбомы</string>
+    <string name="auto_playlists">Плейлисты</string>
+    <string name="auto_artists">Исполнители</string>
+    <string name="auto_favorites">Избранное</string>
+    <string name="auto_downloads">Скачанное</string>
+    <string name="auto_on_device">На устройстве</string>
+    <string name="auto_smart_playlist">Умный плейлист</string>
+
+    <!-- Widget -->
+    <string name="widget_nothing_playing">Ничего не играет</string>
+</resources>

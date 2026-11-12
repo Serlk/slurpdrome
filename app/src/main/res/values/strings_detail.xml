@@ -1,0 +1,137 @@
+<resources>
+    <!-- Detail screens -->
+    <string name="detail_play">Play</string>
+    <string name="detail_shuffle">Shuffle</string>
+    <string name="detail_keep_offline">Keep offline</string>
+    <string name="detail_unpin_offline">Don\'t keep offline</string>
+    <string name="detail_toast_pinned">Will be available offline</string>
+    <string name="detail_toast_unpinned">No longer kept offline</string>
+    <string name="detail_favorite">Favorite</string>
+    <string name="detail_mix">Mix</string>
+    <string name="detail_radio">Radio</string>
+    <string name="detail_disc_n">Disc %1$d</string>
+    <string name="detail_top_tracks">Popular</string>
+    <string name="detail_albums">Albums</string>
+    <string name="detail_tracks">Tracks</string>
+    <string name="detail_similar_artists">Similar artists</string>
+    <string name="detail_no_server_connection">Can\'t reach the server</string>
+    <string name="detail_rename">Rename</string>
+    <string name="detail_copy_to_device">Copy to device</string>
+    <string name="detail_copy_created">Copy created — you can add tracks from any source to it</string>
+    <string name="detail_delete_playlist">Delete playlist</string>
+    <string name="detail_by_owner">by %1$s</string>
+    <string name="detail_playlist_empty">Playlist is empty</string>
+    <string name="detail_remove_from_playlist">Remove from playlist</string>
+    <string name="detail_removed">Removed</string>
+    <string name="detail_move_up">Move up</string>
+    <string name="detail_move_down">Move down</string>
+    <string name="detail_delete_q">Delete “%1$s”?</string>
+    <string name="detail_delete_playlist_msg">The playlist will be deleted on the server.</string>
+    <string name="detail_edit_rules">Edit rules</string>
+    <string name="detail_smart_playlist">Smart playlist</string>
+    <plurals name="detail_rules_count">
+        <item quantity="one">%d rule</item>
+        <item quantity="other">%d rules</item>
+    </plurals>
+    <string name="detail_auto_updated">updates automatically</string>
+    <string name="detail_smart_no_match">No tracks match these rules</string>
+    <string name="detail_delete_smart_q">Delete smart playlist?</string>
+    <string name="detail_new_smart_playlist">New smart playlist</string>
+    <string name="detail_rules">Rules</string>
+    <string name="detail_name">Name</string>
+    <string name="detail_match">Match:</string>
+    <string name="detail_match_all">all rules</string>
+    <string name="detail_match_any">any</string>
+    <string name="detail_add_rule">Add rule</string>
+    <string name="detail_sort">Sort</string>
+    <string name="detail_sort_random">Random</string>
+    <string name="detail_limit">Limit (0 = none)</string>
+    <string name="detail_preview">Preview: %1$s</string>
+    <string name="detail_field">Field</string>
+    <string name="detail_condition">Condition</string>
+    <string name="detail_days">days</string>
+    <string name="detail_value">value</string>
+    <string name="detail_remove_rule">Remove rule</string>
+    <string name="detail_genre_radio">Genre radio</string>
+    <string name="detail_book_finished">Finished</string>
+    <string name="detail_chapter_n_of">Chapter %1$d of %2$d</string>
+    <string name="detail_audiobook">Audiobook</string>
+    <string name="detail_continue">Continue</string>
+
+    <!-- Local playlist -->
+    <string name="lp_rename">Rename</string>
+    <string name="lp_export_to_server_ellipsis">Upload to server…</string>
+    <string name="lp_export_to_server">Upload to server</string>
+    <string name="lp_on_device">On device</string>
+    <string name="lp_sources">Sources: %1$s</string>
+    <string name="lp_empty">Empty. Add tracks from any server via the track menu → “Add to playlist”.</string>
+    <string name="lp_remove_from_playlist">Remove from playlist</string>
+    <string name="lp_move_up">Move up</string>
+    <string name="lp_move_down">Move down</string>
+    <string name="lp_delete_q">Delete “%1$s”?</string>
+    <string name="lp_export_hint">The server\'s own copies of these tracks will be used; tracks it doesn\'t have will be skipped.</string>
+    <string name="lp_export_added">“%1$s”: added %2$d</string>
+    <string name="lp_export_missing">, not on server: %1$d</string>
+    <string name="lp_failed">Failed: %1$s</string>
+
+    <!-- Home -->
+    <string name="home_sync">Sync</string>
+    <string name="home_settings">Settings</string>
+    <string name="home_syncing_stage">Syncing: %1$s</string>
+    <string name="home_sync_error">Sync error: %1$s</string>
+    <string name="home_library_empty">Library is empty</string>
+    <string name="home_refresh_mixes">Refresh mixes</string>
+    <plurals name="home_tracks_on_device">
+        <item quantity="one">%d track on device</item>
+        <item quantity="other">%d tracks on device</item>
+    </plurals>
+    <string name="home_shuffle_albums">Show others</string>
+    <string name="home_mix_fallback">Mix</string>
+    <string name="home_play">Play</string>
+    <string name="home_shuffle">Shuffle</string>
+
+    <!-- Library -->
+    <string name="lib_tab_albums">Albums</string>
+    <string name="lib_tab_artists">Artists</string>
+    <string name="lib_tab_tracks">Tracks</string>
+    <string name="lib_tab_genres">Genres</string>
+    <string name="lib_tab_favorites">Favorites</string>
+    <string name="lib_tab_downloads">Downloads</string>
+    <string name="lib_sort">Sort</string>
+    <string name="lib_jump_to_letter">Jump to letter</string>
+    <plurals name="lib_albums_count">
+        <item quantity="one">%d album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <plurals name="lib_artists_count">
+        <item quantity="one">%d artist</item>
+        <item quantity="other">%d artists</item>
+    </plurals>
+    <string name="lib_view">View</string>
+    <string name="lib_no_downloaded_albums">No downloaded albums</string>
+    <string name="lib_no_albums">No albums</string>
+    <string name="lib_no_artists">No artists</string>
+    <string name="lib_no_tracks">No tracks</string>
+    <string name="lib_shuffle_all">Shuffle all</string>
+    <string name="lib_no_genres">No genres found</string>
+    <string name="lib_genre_counts">%1$d alb · %2$d trk</string>
+    <string name="lib_no_fav_tracks">No favorite tracks yet</string>
+    <string name="lib_play_all">Play all</string>
+    <string name="lib_shuffle">Shuffle</string>
+    <string name="lib_no_fav_albums">No favorite albums</string>
+    <string name="lib_no_fav_artists">No favorite artists</string>
+    <plurals name="lib_downloads_summary">
+        <item quantity="one">%1$d track · %2$s MB</item>
+        <item quantity="other">%1$d tracks · %2$s MB</item>
+    </plurals>
+    <string name="lib_queued_n">queued: %1$d</string>
+    <string name="lib_failed_n">failed: %1$d</string>
+    <string name="lib_retry">Retry</string>
+    <string name="lib_delete_all">Delete all</string>
+    <string name="lib_waiting_wifi">Waiting for Wi‑Fi: %1$d</string>
+    <string name="lib_on_mobile_data">Currently on mobile data</string>
+    <string name="lib_download_now">Download now</string>
+    <string name="lib_downloads_empty">Tracks saved for offline will appear here.\nOpen a track, album or playlist menu → “Download” / “Keep offline”.</string>
+    <string name="lib_delete_all_downloads_q">Delete all downloads?</string>
+    <string name="lib_delete_all_downloads_msg">Files will be removed from the device. “Keep offline” rules will be removed too.</string>
+</resources>

@@ -1,0 +1,147 @@
+<resources>
+    <!-- Detail screens -->
+    <string name="detail_play">Слушать</string>
+    <string name="detail_shuffle">Перемешать</string>
+    <string name="detail_keep_offline">Хранить офлайн</string>
+    <string name="detail_unpin_offline">Не хранить офлайн</string>
+    <string name="detail_toast_pinned">Будет доступно офлайн</string>
+    <string name="detail_toast_unpinned">Больше не хранится офлайн</string>
+    <string name="detail_favorite">Избранное</string>
+    <string name="detail_mix">Микс</string>
+    <string name="detail_radio">Радио</string>
+    <string name="detail_disc_n">Диск %1$d</string>
+    <string name="detail_top_tracks">Популярное</string>
+    <string name="detail_albums">Альбомы</string>
+    <string name="detail_tracks">Треки</string>
+    <string name="detail_similar_artists">Похожие исполнители</string>
+    <string name="detail_no_server_connection">Нет связи с сервером</string>
+    <string name="detail_rename">Переименовать</string>
+    <string name="detail_copy_to_device">Скопировать на устройство</string>
+    <string name="detail_copy_created">Копия создана — в неё можно добавлять треки с любых источников</string>
+    <string name="detail_delete_playlist">Удалить плейлист</string>
+    <string name="detail_by_owner">от %1$s</string>
+    <string name="detail_playlist_empty">Плейлист пуст</string>
+    <string name="detail_remove_from_playlist">Удалить из плейлиста</string>
+    <string name="detail_removed">Удалено</string>
+    <string name="detail_move_up">Переместить выше</string>
+    <string name="detail_move_down">Переместить ниже</string>
+    <string name="detail_delete_q">Удалить «%1$s»?</string>
+    <string name="detail_delete_playlist_msg">Плейлист будет удалён на сервере.</string>
+    <string name="detail_edit_rules">Изменить правила</string>
+    <string name="detail_smart_playlist">Умный плейлист</string>
+    <plurals name="detail_rules_count">
+        <item quantity="one">%d правило</item>
+        <item quantity="few">%d правила</item>
+        <item quantity="many">%d правил</item>
+        <item quantity="other">%d правила</item>
+    </plurals>
+    <string name="detail_auto_updated">обновляется автоматически</string>
+    <string name="detail_smart_no_match">Под правила не подошёл ни один трек</string>
+    <string name="detail_delete_smart_q">Удалить умный плейлист?</string>
+    <string name="detail_new_smart_playlist">Новый умный плейлист</string>
+    <string name="detail_rules">Правила</string>
+    <string name="detail_name">Название</string>
+    <string name="detail_match">Совпадение:</string>
+    <string name="detail_match_all">все правила</string>
+    <string name="detail_match_any">любое</string>
+    <string name="detail_add_rule">Добавить правило</string>
+    <string name="detail_sort">Сортировка</string>
+    <string name="detail_sort_random">Случайно</string>
+    <string name="detail_limit">Лимит (0 = без)</string>
+    <string name="detail_preview">Предпросмотр: %1$s</string>
+    <string name="detail_field">Поле</string>
+    <string name="detail_condition">Условие</string>
+    <string name="detail_days">дней</string>
+    <string name="detail_value">значение</string>
+    <string name="detail_remove_rule">Удалить правило</string>
+    <string name="detail_genre_radio">Радио жанра</string>
+    <string name="detail_book_finished">Прослушано</string>
+    <string name="detail_chapter_n_of">Глава %1$d из %2$d</string>
+    <string name="detail_audiobook">Аудиокнига</string>
+    <string name="detail_continue">Продолжить</string>
+
+    <!-- Local playlist -->
+    <string name="lp_rename">Переименовать</string>
+    <string name="lp_export_to_server_ellipsis">Выгрузить на сервер…</string>
+    <string name="lp_export_to_server">Выгрузить на сервер</string>
+    <string name="lp_on_device">На устройстве</string>
+    <string name="lp_sources">Источники: %1$s</string>
+    <string name="lp_empty">Пусто. Добавляйте треки с любых серверов через меню трека → «Добавить в плейлист».</string>
+    <string name="lp_remove_from_playlist">Удалить из плейлиста</string>
+    <string name="lp_move_up">Переместить выше</string>
+    <string name="lp_move_down">Переместить ниже</string>
+    <string name="lp_delete_q">Удалить «%1$s»?</string>
+    <string name="lp_export_hint">На сервер попадут его копии этих треков; отсутствующие на нём будут пропущены.</string>
+    <string name="lp_export_added">«%1$s»: добавлено %2$d</string>
+    <string name="lp_export_missing">, нет на сервере: %1$d</string>
+    <string name="lp_failed">Не удалось: %1$s</string>
+
+    <!-- Home -->
+    <string name="home_sync">Синхронизировать</string>
+    <string name="home_settings">Настройки</string>
+    <string name="home_syncing_stage">Синхронизация: %1$s</string>
+    <string name="home_sync_error">Ошибка синхронизации: %1$s</string>
+    <string name="home_library_empty">Библиотека пуста</string>
+    <string name="home_refresh_mixes">Обновить миксы</string>
+    <plurals name="home_tracks_on_device">
+        <item quantity="one">%d трек на устройстве</item>
+        <item quantity="few">%d трека на устройстве</item>
+        <item quantity="many">%d треков на устройстве</item>
+        <item quantity="other">%d трека на устройстве</item>
+    </plurals>
+    <string name="home_shuffle_albums">Другие</string>
+    <string name="home_mix_fallback">Микс</string>
+    <string name="home_play">Слушать</string>
+    <string name="home_shuffle">Перемешать</string>
+
+    <!-- Library -->
+    <string name="lib_tab_albums">Альбомы</string>
+    <string name="lib_tab_artists">Исполнители</string>
+    <string name="lib_tab_tracks">Треки</string>
+    <string name="lib_tab_genres">Жанры</string>
+    <string name="lib_tab_favorites">Избранное</string>
+    <string name="lib_tab_downloads">Загрузки</string>
+    <string name="lib_sort">Сортировка</string>
+    <string name="lib_jump_to_letter">Перейти к букве</string>
+    <plurals name="lib_albums_count">
+        <item quantity="one">%d альбом</item>
+        <item quantity="few">%d альбома</item>
+        <item quantity="many">%d альбомов</item>
+        <item quantity="other">%d альбома</item>
+    </plurals>
+    <plurals name="lib_artists_count">
+        <item quantity="one">%d исполнитель</item>
+        <item quantity="few">%d исполнителя</item>
+        <item quantity="many">%d исполнителей</item>
+        <item quantity="other">%d исполнителя</item>
+    </plurals>
+    <string name="lib_view">Вид</string>
+    <string name="lib_no_downloaded_albums">Нет скачанных альбомов</string>
+    <string name="lib_no_albums">Нет альбомов</string>
+    <string name="lib_no_artists">Нет исполнителей</string>
+    <string name="lib_no_tracks">Нет треков</string>
+    <string name="lib_shuffle_all">Перемешать всё</string>
+    <string name="lib_no_genres">Жанры не найдены</string>
+    <string name="lib_genre_counts">%1$d альб. · %2$d тр.</string>
+    <string name="lib_no_fav_tracks">Пока нет избранных треков</string>
+    <string name="lib_play_all">Слушать всё</string>
+    <string name="lib_shuffle">Перемешать</string>
+    <string name="lib_no_fav_albums">Нет избранных альбомов</string>
+    <string name="lib_no_fav_artists">Нет избранных исполнителей</string>
+    <plurals name="lib_downloads_summary">
+        <item quantity="one">%1$d трек · %2$s МБ</item>
+        <item quantity="few">%1$d трека · %2$s МБ</item>
+        <item quantity="many">%1$d треков · %2$s МБ</item>
+        <item quantity="other">%1$d трека · %2$s МБ</item>
+    </plurals>
+    <string name="lib_queued_n">в очереди: %1$d</string>
+    <string name="lib_failed_n">ошибок: %1$d</string>
+    <string name="lib_retry">Повторить</string>
+    <string name="lib_delete_all">Удалить всё</string>
+    <string name="lib_waiting_wifi">Ждут Wi‑Fi: %1$d</string>
+    <string name="lib_on_mobile_data">Сейчас мобильный интернет</string>
+    <string name="lib_download_now">Скачать сейчас</string>
+    <string name="lib_downloads_empty">Здесь появятся треки, сохранённые для офлайна.\nОткройте меню трека, альбома или плейлиста → «Скачать» / «Хранить офлайн».</string>
+    <string name="lib_delete_all_downloads_q">Удалить все загрузки?</string>
+    <string name="lib_delete_all_downloads_msg">Файлы будут удалены с устройства. Правила «Хранить офлайн» тоже будут сняты.</string>
+</resources>
