@@ -157,7 +157,9 @@ class AppContainer(val app: Application) {
 
     // ---- equalizer (DSP lives in the player's audio pipeline) ----
     val eq = EqRepository(app, http, settingsState, scope)
-    val eqProcessor = EqAudioProcessor()
+    /** One EQ instance per ExoPlayer (two players overlap during crossfade); both follow the same profile. */
+    val eqProcessors = listOf(EqAudioProcessor(), EqAudioProcessor())
+    fun applyEq(profile: dev.slurpdrome.player.eq.EqProfile?, on: Boolean) = eqProcessors.forEach { it.profile = profile; it.enabled = on }
 
     /** Load progress + loudness profile of the current track (drives the seek bar visualiser). */
     val trackFile = MutableStateFlow(dev.slurpdrome.player.TrackFileState())
@@ -181,7 +183,7 @@ class AppContainer(val app: Application) {
         }
         scope.launch {
             kotlinx.coroutines.flow.combine(eq.active, settingsState.map { it.eqEnabled }) { p, on -> p to on }
-                .collect { (p, on) -> eqProcessor.profile = p; eqProcessor.enabled = on }
+                .collect { (p, on) -> applyEq(p, on) }
         }
         sync.requester = { SyncWorker.runNow(app) }
         scope.launch {

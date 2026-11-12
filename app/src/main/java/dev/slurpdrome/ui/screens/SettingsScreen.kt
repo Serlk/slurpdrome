@@ -133,6 +133,7 @@ fun SettingsScreen() {
             item { Toggle(stringResource(R.string.settings_scrobble), stringResource(R.string.settings_scrobble_desc), s.scrobble) { v -> set { it.copy(scrobble = v) } } }
             item { Choice("ReplayGain", s.replayGain, ReplayGainMode.entries, { ctx.getString(when (it) { ReplayGainMode.OFF -> R.string.settings_off; ReplayGainMode.TRACK -> R.string.settings_rg_track; ReplayGainMode.ALBUM -> R.string.settings_rg_album }) }) { v -> set { it.copy(replayGain = v) } } }
             item { Toggle(stringResource(R.string.settings_skip_silence), null, s.skipSilence) { v -> set { it.copy(skipSilence = v) } } }
+            item { Choice(stringResource(R.string.settings_crossfade), s.crossfadeSec, listOf(0, 2, 4, 6, 8, 10, 12), { if (it == 0) ctx.getString(R.string.settings_off) else ctx.getString(R.string.settings_seconds, it) }) { v -> set { it.copy(crossfadeSec = v) } } }
             item { Toggle(stringResource(R.string.settings_autoplay), stringResource(R.string.settings_autoplay_desc), s.autoplay) { v -> set { it.copy(autoplay = v) } } }
             item { Toggle(stringResource(R.string.settings_resume_queue), stringResource(R.string.settings_resume_queue_desc), s.resumeQueue) { v -> set { it.copy(resumeQueue = v) } } }
             item { Toggle(stringResource(R.string.settings_pause_disconnect), stringResource(R.string.settings_pause_disconnect_desc), s.pauseOnDisconnect) { v -> set { it.copy(pauseOnDisconnect = v) } } }

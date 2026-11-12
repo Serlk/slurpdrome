@@ -71,6 +71,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.material.icons.filled.DragHandle
+import androidx.compose.ui.input.key.isShiftPressed
+import androidx.compose.ui.zIndex
 import androidx.compose.foundation.focusable
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -624,22 +629,114 @@ private fun QueueTab(state: PlayerUiState) {
         val lblRemove = stringResource(R.string.np_remove_from_queue)
         val lblUp = stringResource(R.string.np_move_up)
         val lblDown = stringResource(R.string.np_move_down)
+        // Local copy while dragging; stable keys (song id + occurrence) so rows keep identity when moved.
+        var order by remember(queue) { mutableStateOf(queue.withIndex().toList()) }
+        val keys = remember(queue) {
+            val seen = HashMap<String, Int>()
+            queue.map { s -> val n = seen.merge(s.id, 1, Int::plus)!!; "${s.id}#$n" }
+        }
+        var draggingKey by remember { mutableStateOf<String?>(null) }
+        var dragOffset by remember { mutableFloatStateOf(0f) }
+        val scope = rememberCoroutineScope()
+        val haptics = androidx.compose.ui.platform.LocalHapticFeedback.current
+
+        fun dropDrag() {
+            val k = draggingKey ?: return
+            val from = keys.indexOf(k)
+            val to = order.indexOfFirst { keys[it.index] == k }
+            draggingKey = null; dragOffset = 0f
+            if (from >= 0 && to >= 0 && from != to) c.player.moveQueueItem(from, to)
+        }
+        /** Swap with the neighbour the dragged row's centre has crossed. */
+        fun checkSwap() {
+            val k = draggingKey ?: return
+            val info = listState.layoutInfo.visibleItemsInfo
+            val me = info.firstOrNull { it.key == k } ?: return
+            val centre = me.offset + dragOffset + me.size / 2
+            val target = info.firstOrNull { it.key != k && centre.toInt() in it.offset..(it.offset + it.size) } ?: return
+            val fromIdx = order.indexOfFirst { keys[it.index] == k }
+            val toIdx = order.indexOfFirst { keys[it.index] == target.key }
+            if (fromIdx < 0 || toIdx < 0) return
+            order = order.toMutableList().apply { add(toIdx, removeAt(fromIdx)) }
+            dragOffset += me.offset - target.offset
+            haptics.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+        }
+        // Auto-scroll while a row is held near the top/bottom edge.
+        LaunchedEffect(draggingKey) {
+            while (draggingKey != null) {
+                val info = listState.layoutInfo
+                val me = info.visibleItemsInfo.firstOrNull { it.key == draggingKey }
+                if (me != null) {
+                    val top = me.offset + dragOffset
+                    val bottom = top + me.size
+                    val edge = 120f
+                    val dy = when {
+                        top < info.viewportStartOffset + edge -> -((info.viewportStartOffset + edge - top) / 6f).coerceAtMost(30f)
+                        bottom > info.viewportEndOffset - edge -> ((bottom - info.viewportEndOffset + edge) / 6f).coerceAtMost(30f)
+                        else -> 0f
+                    }
+                    if (dy != 0f) { val used = listState.scrollBy(dy); dragOffset += used; checkSwap() }
+                }
+                kotlinx.coroutines.delay(16)
+            }
+        }
+
         LazyColumn(state = listState, contentPadding = PaddingValues(bottom = 24.dp)) {
-            itemsIndexed(queue, key = { i, s -> "$i-${s.id}" }) { i, s ->
+            itemsIndexed(order, key = { _, e -> keys[e.index] }) { i, entry ->
+                val s = entry.value
+                val key = keys[entry.index]
+                val dragging = key == draggingKey
                 val past = i < state.index
-                Box(Modifier.animateItem()) {
+                val lift by androidx.compose.animation.core.animateFloatAsState(if (dragging) 1f else 0f, label = "lift")
+                Row(
+                    (if (dragging) Modifier else Modifier.animateItem())
+                        .zIndex(if (dragging) 1f else 0f)
+                        .graphicsLayer {
+                            translationY = if (dragging) dragOffset else 0f
+                            scaleX = 1f + 0.02f * lift; scaleY = scaleX
+                            shadowElevation = 12.dp.toPx() * lift
+                            shape = RoundedCornerShape(12.dp); clip = lift > 0f
+                        }
+                        .background(MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = lift))
+                        // Keyboard: Shift+Up/Down moves the focused row.
+                        .onPreviewKeyEvent { e ->
+                            if (e.type != KeyEventType.KeyDown || !e.isShiftPressed) return@onPreviewKeyEvent false
+                            when (e.key) {
+                                Key.DirectionUp -> { if (entry.index > 0) c.player.moveQueueItem(entry.index, entry.index - 1); true }
+                                Key.DirectionDown -> { if (entry.index < queue.lastIndex) c.player.moveQueueItem(entry.index, entry.index + 1); true }
+                                else -> false
+                            }
+                        },
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        Icons.Default.DragHandle, stringResource(R.string.np_drag_to_reorder),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if (past) 0.3f else 0.7f),
+                        modifier = Modifier.padding(start = 6.dp).size(36.dp).padding(6.dp)
+                            .pointerInput(key) {
+                                detectDragGestures(
+                                    onDragStart = {
+                                        draggingKey = key; dragOffset = 0f
+                                        haptics.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                                    },
+                                    onDragEnd = { dropDrag() },
+                                    onDragCancel = { dropDrag() },
+                                ) { change, amount -> change.consume(); dragOffset += amount.y; checkSwap() }
+                            },
+                    )
                     SongRow(
                         s,
-                        modifier = if (past) Modifier.alpha(0.5f) else Modifier,
-                        subtitle = if (i == state.index) "$nowPlayingPrefix • ${s.artist}" else s.artist,
+                        modifier = Modifier.weight(1f).then(if (past) Modifier.alpha(0.5f) else Modifier),
+                        subtitle = if (entry.index == state.index) "$nowPlayingPrefix • ${s.artist}" else s.artist,
                         onMenu = {
+                            val idx = entry.index
                             ui.songMenu(s, listOf(
-                                ExtraAction(lblRemove, Icons.Default.Close) { c.player.removeQueueItem(i) },
-                                ExtraAction(lblUp, Icons.Default.ArrowUpward) { c.player.moveQueueItem(i, i - 1) },
-                                ExtraAction(lblDown, Icons.Default.ArrowDownward) { c.player.moveQueueItem(i, i + 1) },
+                                ExtraAction(lblRemove, Icons.Default.Close) { c.player.removeQueueItem(idx) },
+                                ExtraAction(lblUp, Icons.Default.ArrowUpward) { c.player.moveQueueItem(idx, idx - 1) },
+                                ExtraAction(lblDown, Icons.Default.ArrowDownward) { c.player.moveQueueItem(idx, idx + 1) },
                             ))
                         },
-                    ) { c.player.skipTo(i) }
+                    ) { c.player.skipTo(entry.index) }
                 }
             }
         }

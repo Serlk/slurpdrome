@@ -42,6 +42,7 @@ import kotlinx.coroutines.guava.future
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.math.pow
 
 @androidx.annotation.OptIn(UnstableApi::class)
@@ -49,7 +50,11 @@ class PlaybackService : MediaLibraryService() {
     private val c get() = (application as SlurpApp).container
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
+    /** The player driving the session. Swaps with [spare] at every crossfade. */
     private lateinit var player: ExoPlayer
+    /** Second player: plays the incoming track during a crossfade, otherwise idle. */
+    private lateinit var spare: ExoPlayer
+    private val musicAttrs = AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build()
     private lateinit var session: MediaLibrarySession
     private val tree by lazy { LibraryTree(c) }
     private var castPlayer: androidx.media3.cast.CastPlayer? = null
@@ -77,29 +82,8 @@ class PlaybackService : MediaLibraryService() {
 
     override fun onCreate() {
         super.onCreate()
-        val s = c.settingsState.value
-        // Custom audio sink so our EQ runs inside ExoPlayer's processor chain (before speed/silence).
-        val renderers = object : androidx.media3.exoplayer.DefaultRenderersFactory(this) {
-            override fun buildAudioSink(
-                context: android.content.Context, enableFloatOutput: Boolean, enableAudioTrackPlaybackParams: Boolean,
-            ): androidx.media3.exoplayer.audio.AudioSink =
-                androidx.media3.exoplayer.audio.DefaultAudioSink.Builder(context)
-                    .setAudioProcessors(arrayOf(c.eqProcessor))
-                    .setEnableFloatOutput(enableFloatOutput)
-                    .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
-                    .build()
-        }
-        player = ExoPlayer.Builder(this, renderers)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(c.dataSourceFactory))
-            .setAudioAttributes(
-                AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build(),
-                /* handleAudioFocus = */ true,
-            )
-            .setHandleAudioBecomingNoisy(s.pauseOnDisconnect)
-            .setWakeMode(C.WAKE_MODE_NETWORK)
-            .setSeekBackIncrementMs(s.seekStepSec * 1000L)
-            .setSeekForwardIncrementMs(s.seekStepSec * 1000L)
-            .build()
+        player = buildPlayer(c.eqProcessors[0], focus = true)
+        spare = buildPlayer(c.eqProcessors[1], focus = false)
 
         val activityIntent = PendingIntent.getActivity(
             this, 0,
@@ -136,7 +120,31 @@ class PlaybackService : MediaLibraryService() {
         }
         setupCast()
         scope.launch { ticker() }
+        scope.launch { crossfadeWatcher() }
         scope.launch { restoreQueue() }
+    }
+
+    /** ExoPlayer with our EQ inside the audio sink (before speed/silence). Only the main player handles audio focus. */
+    private fun buildPlayer(eq: dev.slurpdrome.player.eq.EqAudioProcessor, focus: Boolean): ExoPlayer {
+        val s = c.settingsState.value
+        val renderers = object : androidx.media3.exoplayer.DefaultRenderersFactory(this) {
+            override fun buildAudioSink(
+                context: android.content.Context, enableFloatOutput: Boolean, enableAudioTrackPlaybackParams: Boolean,
+            ): androidx.media3.exoplayer.audio.AudioSink =
+                androidx.media3.exoplayer.audio.DefaultAudioSink.Builder(context)
+                    .setAudioProcessors(arrayOf(eq))
+                    .setEnableFloatOutput(enableFloatOutput)
+                    .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
+                    .build()
+        }
+        return ExoPlayer.Builder(this, renderers)
+            .setMediaSourceFactory(DefaultMediaSourceFactory(c.dataSourceFactory))
+            .setAudioAttributes(musicAttrs, focus)
+            .setHandleAudioBecomingNoisy(s.pauseOnDisconnect)
+            .setWakeMode(C.WAKE_MODE_NETWORK)
+            .setSeekBackIncrementMs(s.seekStepSec * 1000L)
+            .setSeekForwardIncrementMs(s.seekStepSec * 1000L)
+            .build()
     }
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaLibrarySession = session
@@ -154,6 +162,7 @@ class PlaybackService : MediaLibraryService() {
         scope.cancel()
         session.release()
         player.release()
+        spare.release()
         super.onDestroy()
     }
 
@@ -216,7 +225,7 @@ class PlaybackService : MediaLibraryService() {
 
     private val listener = object : Player.Listener {
         override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-            val auto = reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO
+            val auto = reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO || handover
             val prev = current
             val prevSong = currentSong
             // Finished the last chapter of a book (next item belongs to another album, or none).
@@ -476,12 +485,101 @@ class PlaybackService : MediaLibraryService() {
 
     private fun applyReplayGain(item: MediaItem?) {
         val mode = c.settingsState.value.replayGain
-        if (mode == ReplayGainMode.OFF || item == null) { player.volume = 1f; return }
+        if (mode == ReplayGainMode.OFF || item == null) { mainGain = 1f; player.volume = fadeIn; return }
         scope.launch {
             val s = c.library.songsByIds(listOf(item.mediaId)).firstOrNull() ?: return@launch
             val gain = (if (mode == ReplayGainMode.ALBUM) s.albumGain ?: s.trackGain else s.trackGain ?: s.albumGain) ?: 0f
             // Amplification above unity would clip without a limiter, so only attenuate.
-            player.volume = 10f.pow(gain / 20f).coerceIn(0.05f, 1f)
+            mainGain = 10f.pow(gain / 20f).coerceIn(0.05f, 1f)
+            player.volume = mainGain * fadeIn
+        }
+    }
+
+    // ---------------- crossfade ----------------
+
+    /** ReplayGain of the main player's track, and the fade-in factor applied on top of it. */
+    private var mainGain = 1f
+    private var fadeIn = 1f
+    private var fading = false
+    /** True while the incoming player takes over: its first item transition counts as "auto". */
+    private var handover = false
+
+    /** Starts a crossfade when the end of the current track gets within the configured window. */
+    private suspend fun crossfadeWatcher() {
+        while (scope.isActive) {
+            delay(120)
+            val sec = c.settingsState.value.crossfadeSec
+            if (sec <= 0 || fading || casting) continue
+            val p = player
+            if (!p.isPlaying || p.repeatMode == Player.REPEAT_MODE_ONE || p.shuffleModeEnabled) continue
+            val next = p.currentMediaItemIndex + 1
+            if (next >= p.mediaItemCount) continue
+            val window = sec * 1000L
+            val dur = p.duration
+            if (dur == C.TIME_UNSET || dur < window * 2 + 10_000) continue
+            val remaining = ((dur - p.currentPosition) / p.playbackParameters.speed).toLong()
+            if (remaining > window || remaining < 400) continue
+            // Albums meant to flow into each other (live, concept, DJ mixes) stay gapless.
+            val curAlbum = p.currentMediaItem?.mediaMetadata?.extras?.getString(MediaItemFactory.EXTRA_ALBUM_ID)
+            val nextAlbum = p.getMediaItemAt(next).mediaMetadata.extras?.getString(MediaItemFactory.EXTRA_ALBUM_ID)
+            if (curAlbum != null && curAlbum == nextAlbum) continue
+            if (c.audiobooks.isAudiobook(currentSong) || c.sleepTimer.state.value.endOfTrack) continue
+            crossfade(remaining.coerceAtMost(window))
+        }
+    }
+
+    /**
+     * The spare player starts the next track silently and becomes the session's player right
+     * away (notification, UI, Auto follow it); the old one fades out on the side and stops.
+     * Equal-power curves keep the perceived loudness steady through the overlap.
+     */
+    private suspend fun crossfade(durationMs: Long) {
+        val out = player
+        val inc = spare
+        val items = (0 until out.mediaItemCount).map { out.getMediaItemAt(it) }
+        val next = out.currentMediaItemIndex + 1
+        val outGain = mainGain
+        fading = true
+        try {
+            out.removeListener(listener)
+            out.setAudioAttributes(musicAttrs, false)
+            inc.setAudioAttributes(musicAttrs, true)
+            inc.repeatMode = out.repeatMode
+            inc.playbackParameters = out.playbackParameters
+            inc.skipSilenceEnabled = out.skipSilenceEnabled
+            inc.volume = 0f
+            fadeIn = 0f
+            player = inc
+            spare = out
+            inc.addListener(listener)
+            handover = true
+            try { inc.setMediaItems(items, next, 0) } finally { handover = false }
+            inc.prepare()
+            inc.play()
+            session.player = inc
+            c.sleepTimer.player = inc
+            Log.i("Playback", "crossfade ${durationMs} ms → ${items[next].mediaId}")
+
+            // Don't start fading until the new track actually sounds (it's usually pre-cached).
+            withTimeoutOrNull(3000) { while (!inc.isPlaying) delay(25) }
+            val start = System.currentTimeMillis()
+            while (true) {
+                val t = ((System.currentTimeMillis() - start).toFloat() / durationMs).coerceIn(0f, 1f)
+                // Paused, skipped or stopped meanwhile: drop the tail at once.
+                if (player !== inc || !inc.playWhenReady || out.playbackState == Player.STATE_ENDED) break
+                fadeIn = kotlin.math.sin(t * Math.PI / 2).toFloat()
+                inc.volume = mainGain * fadeIn
+                out.volume = outGain * kotlin.math.cos(t * Math.PI / 2).toFloat()
+                if (t >= 1f) break
+                delay(25)
+            }
+        } finally {
+            fadeIn = 1f
+            if (player === inc) inc.volume = mainGain
+            out.stop()
+            out.clearMediaItems()
+            out.volume = 1f
+            fading = false
         }
     }
 

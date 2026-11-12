@@ -7,7 +7,7 @@ A Navidrome client for Android, built for both touchscreens and keypad phones (K
 ## Features
 - **One library from many sources** — any number of Navidrome servers plus music on the phone, merged without restarts; duplicates across sources are folded into one entry.
 - **Offline first** — LRU stream cache (up to 100 GB), explicit downloads, optional auto-download of favorites (off by default), Wi-Fi / mobile-data aware background downloads.
-- **Player** — gapless ExoPlayer, ReplayGain, endless continuation for mixes and radio (your own playlists stop at the end), waveform seek bar once a track is fully cached, swipe anywhere to skip, double-tap the cover to like, queue in a pull-up panel, synced lyrics.
+- **Player** — gapless playback or crossfade (dual-player, equal-power; albums stay gapless), ReplayGain, endless continuation for mixes and radio (your own playlists stop at the end), waveform seek bar once a track is fully cached, swipe anywhere to skip, double-tap the cover to like, queue in a pull-up panel with drag-and-drop (Shift+↑/↓ on a keyboard), synced lyrics.
 - **Equalizer** — custom DSP (RBJ biquads, preamp, limiter), ~8800 AutoEQ headphone profiles, per-output-device switching.
 - **Mixes and smart playlists**, device-local playlists mixing tracks from several sources.
 - **CUE images** — single-file albums with an embedded CUESHEET are split into virtual tracks.
@@ -53,4 +53,4 @@ a manual download, "Auto-save favorites" (off by default), or a pinned album/art
 Stars, ratings and scrobbles made without a connection are sent once it's back.
 
 ## Roadmap
-UPnP/DLNA, drag-and-drop in the queue, the Titan 2 rear screen, .lrc lyrics for local files.
+UPnP/DLNA, the Titan 2 rear screen, .lrc lyrics for local files.

@@ -74,6 +74,8 @@ data class Settings(
     val resumeQueue: Boolean = true,
     /** When the queue ends: mixes keep going, albums/searches continue as radio; own playlists stop. */
     val autoplay: Boolean = true,
+    /** Crossfade between tracks, seconds; 0 = off (gapless). */
+    val crossfadeSec: Int = 0,
     val pauseOnDisconnect: Boolean = true,
 
     // equalizer

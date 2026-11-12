@@ -41,4 +41,4 @@ export JAVA_HOME=~/.local/jdk-17 ANDROID_HOME=~/Android/Sdk
 Альбомы-образы (один FLAC + встроенный CUESHEET) делятся на виртуальные треки; `tools/embed-cue.sh` встраивает внешние .cue на сервере.
 
 ## Roadmap
-UPnP/DLNA, drag-and-drop в очереди, задний экран Titan 2, тексты из .lrc для локальных файлов.
+UPnP/DLNA, задний экран Titan 2, тексты из .lrc для локальных файлов.

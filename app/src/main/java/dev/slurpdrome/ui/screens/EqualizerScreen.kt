@@ -186,9 +186,9 @@ fun EqualizerScreen() {
         }
     }
     // Live preview: what you hear follows the sliders before saving; leaving restores the saved one.
-    LaunchedEffect(draft, settings.eqEnabled) { c.eqProcessor.profile = draft; c.eqProcessor.enabled = settings.eqEnabled }
+    LaunchedEffect(draft, settings.eqEnabled) { c.applyEq(draft, settings.eqEnabled) }
     androidx.compose.runtime.DisposableEffect(Unit) {
-        onDispose { c.eqProcessor.profile = c.eq.active.value; c.eqProcessor.enabled = c.settingsState.value.eqEnabled }
+        onDispose { c.applyEq(c.eq.active.value, c.settingsState.value.eqEnabled) }
     }
     if (showAutoEq) AutoEqDialog(onDismiss = { showAutoEq = false }) { p ->
         showAutoEq = false

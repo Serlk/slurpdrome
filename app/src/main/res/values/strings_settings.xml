@@ -169,6 +169,7 @@
         <item quantity="other">%d profiles. Start typing a name.</item>
     </plurals>
     <string name="settings_cache_free">Free on device: %1$s</string>
+    <string name="settings_crossfade">Crossfade</string>
     <string name="settings_autoplay">Autoplay</string>
     <string name="settings_autoplay_desc">When the queue ends, mixes keep going and albums continue as radio. Your playlists stop.</string>
 </resources>

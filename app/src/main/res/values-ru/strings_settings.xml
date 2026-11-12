@@ -181,6 +181,7 @@
         <item quantity="other">%d профиля. Начните вводить название.</item>
     </plurals>
     <string name="settings_cache_free">Свободно на устройстве: %1$s</string>
+    <string name="settings_crossfade">Плавный переход</string>
     <string name="settings_autoplay">Автопродолжение</string>
     <string name="settings_autoplay_desc">Когда очередь заканчивается: миксы продолжаются, альбомы переходят в радио. Ваши плейлисты останавливаются.</string>
 </resources>
