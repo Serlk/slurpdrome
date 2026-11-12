@@ -127,10 +127,12 @@ class PlayerConnection(
         _state.value = old.copy(
             connected = true,
             currentId = currentId,
-            current = old.current?.takeIf { it.id == currentId },
+            // Keep showing the previous song until the new one loads from Room (a few ms): dropping to
+            // null would hide the whole player sheet for a frame and flash the screen behind it.
+            current = if (currentId == null) null else old.current,
             isPlaying = c.isPlaying,
             isBuffering = c.playbackState == Player.STATE_BUFFERING,
-            durationMs = c.duration.takeIf { it > 0 } ?: ((old.current?.duration ?: 0) * 1000L),
+            durationMs = c.duration.takeIf { it > 0 } ?: ((old.current?.takeIf { it.id == currentId }?.duration ?: 0) * 1000L),
             index = c.currentMediaItemIndex,
             repeatMode = c.repeatMode,
             shuffled = unshuffledOrder != null,

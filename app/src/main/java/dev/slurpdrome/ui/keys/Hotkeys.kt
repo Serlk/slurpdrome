@@ -84,11 +84,11 @@ class Hotkeys(private val c: AppContainer) {
     }
 
     private fun favoriteCurrent() {
-        c.player.state.value.current?.let { c.library.toggleSongStar(it) }
+        c.player.state.value.let { st -> st.current?.takeIf { it.id == st.currentId } }?.let { c.library.toggleSongStar(it) }
     }
 
     private fun rateCurrent(stars: Int) {
-        c.player.state.value.current?.let { c.library.setRating(it.id, "song", stars) }
+        c.player.state.value.let { st -> st.current?.takeIf { it.id == st.currentId } }?.let { c.library.setRating(it.id, "song", stars) }
     }
 
     companion object {
